@@ -1,0 +1,300 @@
+/* ye mediea query code navbar ka hai */
+ /* Mobile-First Responsive Fixes */
+ @media (max-width: 576px) {
+  .navbar {
+      padding: 10px 15px;
+  }
+  
+  .nav-outline,
+  .nav-fill {
+      font-size: 1.8rem;
+      -webkit-text-stroke: 1px white;
+  }
+}
+
+@media (max-width: 400px) {
+  .nav-outline,
+  .nav-fill {
+      font-size: 1.5rem;
+  }
+}
+@media (max-width: 320px) {
+  .nav-outline,
+  .nav-fill {
+      font-size: 1.3rem;
+      letter-spacing: 0;
+  }
+}
+
+/* Dots Container - Perfect Size */
+.dots-container {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px; /* Reduced from 10px */
+  z-index: 10;
+}
+
+.dot {
+  width: 10px;  /* Fixed size */
+  height: 10px; /* Fixed size */
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.dot.active {
+  background: white;
+  transform: scale(1); /* Removed any scaling */
+}
+
+/* Hide buttons below 700px */
+
+  @media (max-width: 700px) {
+    .btn {
+      display: none; /* Buttons will vanish */
+    }
+  }
+  
+  /* Optional: Make dots slightly smaller on mobile */
+  .dot {
+    width: 8px;
+    height: 8px;
+  }
+  
+
+  /* Responsive styles for screens below 800px theme slider ki  */
+  /* Mobile View (Below 800px) */
+@media (max-width: 800px) {
+  .theme-h1 {
+    font-size: 25px;
+    /* Optional for extra elegance */
+  }
+  .theme-container {
+    display: flex;
+    height: 70%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    gap: 0;
+  }
+  
+  .theme-card {
+    scroll-snap-align: center;
+    min-width: 50%;
+    min-height: 70%;
+    flex-shrink: 0;
+  }
+  
+  /* Hide blur effect on mobile */
+  .theme-card:not(:nth-child(2)) { 
+    display: none; 
+  }
+  .theme-card.blur {
+    opacity: 1;
+    transform: none;
+  }
+  .prev_text{
+    font-size: 25px;
+    text-align: center;
+    
+  }
+  .about_text{
+    font-size: 25px;
+    text-align: center;
+  }
+  .pop_msg{
+    font-size: 10px;
+  }
+}
+/* ye 600px se 700 px tak image shi lane ke liye */
+@media  (min-width: 600px) and (max-width: 800px){
+  .theme-container{
+    height: 100%;
+
+  }
+  .theme-card{
+    min-width: 50%;
+    min-height: 320px;
+
+  }
+  .modal-content p {
+    font-size: 14px;
+    color: #333;
+    margin-top: 10px;
+    max-height: 30px;
+  }
+}
+@media (min-width: 360px) and (max-width: 600px){
+  .modal-content p {
+    font-size: 14px;
+    color: #333;
+    margin-top: 10px;
+    max-height: 30px;
+  }
+}
+
+
+@media (max-width: 300px){
+  .prev-theme,
+.next-theme {
+  position: absolute;
+  top: 50%;
+
+}
+
+.prev-theme {
+  left: -8px;
+}
+
+.next-theme {
+  right: -8px;
+}
+.modal-content p {
+  font-size: 15px;
+  color: #333;
+  margin-top: 10px;
+  max-height: 30px;
+}
+}
+
+
+
+/* ////////////////////////? */
+
+/* ===== Responsive Enhancements ===== */
+@media (min-width: 500px) {
+  .user-input {
+    margin: 2rem auto;
+    max-width: 480px;
+    padding: 1.5rem;
+  }
+  
+  .preview-box {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+  }
+  
+  .text-options {
+    gap: 1rem;
+  }
+  
+  .text-options select {
+    min-width: 160px;
+    padding: 0.75rem 1rem;
+  }
+}
+
+@media (min-width: 800px) {
+  .user-input {
+    max-width: 600px;
+    padding: 2rem;
+  }
+  
+  .preview-box {
+    max-width: 650px;
+  }
+  
+  footer p {
+    font-size: 1.25rem;
+  }
+  
+  /* Horizontal layout for text options on desktop */
+  .text-options {
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+}
+
+/* Special Adjustments for Very Small Phones */
+@media (max-width: 360px) {
+  
+.theme-h1 {
+  font-size: 25px;
+  /* Optional for extra elegance */
+}
+
+  .user-input {
+    margin: 1rem;
+    padding: 1rem;
+  }
+  .user-text{
+  font-size: 18px;
+    /* margin-top: 10px;
+    margin-bottom: 10px; */
+  }
+  .text-options select {
+    width: 100%;
+    min-width: auto;
+  }
+  .prev_text{
+    font-size: 22px;
+    text-align: center;
+    
+  }
+  .about_text{
+    font-size: 18px;
+    text-align: center;
+  }
+  .modal-content p {
+    font-size: 12px;
+    color: #333;
+    margin-top: 10px;
+    max-height: 30px;
+  }
+}
+
+@media  (min-width: 280px) and (max-width: 300px) {
+  .theme-h1 {
+    font-size: 25px;
+    /* Optional for extra elegance */
+  }
+  .user-input {
+    margin: 0.6rem;
+    padding: 0.6rem;
+  }
+  .user-text{
+    font-size: 14px;
+      /* margin-top: 10px;
+      margin-bottom: 10px; */
+    }
+  
+  .text-options select {
+    width: 100%;
+    min-width: auto;
+  }
+  .text-options {
+    gap: 0.5rem;
+  }
+  
+  .text-options select {
+    min-width: 120px;
+    padding: 0.45rem 0.6rem;
+    margin-top: 20px;
+  }
+  .prev_text{
+    font-size: 18px;
+    text-align: center;
+    
+  }
+  .preview-box {
+    max-width: 550px;
+    margin-top: 80px;
+  }
+  .about_text{
+    font-size: 18px;
+    text-align: center;
+  }
+  .modal-content p {
+    font-size: 12px;
+    color: #333;
+    margin-top: 10px;
+    max-height: 30px;
+  }
+}
