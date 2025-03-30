@@ -275,80 +275,69 @@ selectThemeBtn.addEventListener('click', () => {
 //
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Common elements
+  const container = document.getElementById('themeContainer');
   const cards = document.querySelectorAll('.theme-card');
+  const prevBtn = document.querySelector('.prev-theme');
+  const nextBtn = document.querySelector('.next-theme');
   const selectBtn = document.querySelector('.select-theme');
-  
-  // Mobile view (800px ke niche)
-  if (window.innerWidth <= 800) {
-    const container = document.querySelector('.theme-container');
-    const prevBtn = document.querySelector('.prev-theme');
-    const nextBtn = document.querySelector('.next-theme');
-    let currentIndex = 0;
+  let currentIndex = 1; // Start with second card (as per your HTML)
 
-    // Initialize - show first card
-    function showCurrentCard() {
-      cards.forEach((card, index) => {
-        card.style.display = index === currentIndex ? 'block' : 'none';
-        card.classList.toggle('active', index === currentIndex);
-      });
-      // Immediately update preview
-      updatePreview(cards[currentIndex].dataset.theme); // Use data-theme attribute
-    }
+  // 1. PRE-LOAD ALL IMAGES
+  const themeImages = {};
+  cards.forEach(card => {
+    const img = new Image();
+    img.src = card.querySelector('img').src;
+    themeImages[card.dataset.theme] = img;
+  });
 
-    // Navigation functions
-    function showNext() {
-      currentIndex = (currentIndex + 1) % cards.length;
-      showCurrentCard();
-    }
-
-    function showPrev() {
-      currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-      showCurrentCard();
-    }
-
-    // Initialize
-    showCurrentCard();
-
-    // Event listeners
-    nextBtn.addEventListener('click', showNext);
-    prevBtn.addEventListener('click', showPrev);
-
-    // Touch support
-    let touchStartX = 0;
-    container.addEventListener('touchstart', (e) => {
-      touchStartX = e.touches[0].clientX;
-    }, {passive: true});
-
-    container.addEventListener('touchend', (e) => {
-      const touchEndX = e.changedTouches[0].clientX;
-      if (touchEndX < touchStartX - 50) showNext();
-      if (touchEndX > touchStartX + 50) showPrev();
-    }, {passive: true});
-  }
-
-  // Update preview immediately
+  // 2. UPDATE PREVIEW (INSTANT)
   function updatePreview(themeId) {
-    // Tumhara existing preview update code yahan aayega
-    console.log("Updating preview with theme:", themeId);
-    // Example: document.getElementById('preview-image').src = `images/${themeId}.jpg`;
-    
-    // Ya fir canvas update code
-    // generateCardDesign(themeId);
+    console.log("Selected Theme:", themeId);
+    // Tumhara preview update code yahan aayega
+    // document.getElementById('preview-image').src = `path/${themeId}.png`;
   }
 
-  // Select button click handler
-  selectBtn.addEventListener('click', function() {
-    const selectedCard = document.querySelector('.theme-card.active');
-    if (selectedCard) {
-      const themeId = selectedCard.dataset.theme;
-      updatePreview(themeId);
-      
-      // Instant feedback
-      selectBtn.textContent = "✓ Selected";
-      setTimeout(() => selectBtn.textContent = "Select Theme", 1000);
+  // 3. SHOW SELECTED CARD
+  function showCard(index) {
+    cards.forEach((card, i) => {
+      const isActive = i === index;
+      card.classList.toggle('blur', !isActive);
+      if (isActive) {
+        card.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center'
+        });
+        // INSTANT PREVIEW UPDATE
+        updatePreview(card.dataset.theme);
+      }
+    });
+    currentIndex = index;
+  }
+
+  // 4. NAVIGATION
+  nextBtn.addEventListener('click', () => {
+    const nextIndex = (currentIndex + 1) % cards.length;
+    showCard(nextIndex);
+  });
+
+  prevBtn.addEventListener('click', () => {
+    const prevIndex = (currentIndex - 1 + cards.length) % cards.length;
+    showCard(prevIndex);
+  });
+
+  // 5. SELECT BUTTON (ZERO DELAY)
+  selectBtn.addEventListener('click', () => {
+    const activeCard = document.querySelector('.theme-card:not(.blur)');
+    if (activeCard) {
+      updatePreview(activeCard.dataset.theme);
+      selectBtn.textContent = "✓ Selected!";
+      setTimeout(() => selectBtn.textContent = "Select", 1000);
     }
   });
+
+  // Initialize
+  showCard(currentIndex);
 });
 
 // ***********************User Input and Preview***************//
