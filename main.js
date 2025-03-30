@@ -22,7 +22,7 @@ function initIntro() {
   setTimeout(() => {
     document.getElementById('eid-intro').style.display = 'none';
     document.getElementById('main-page').style.display = 'block';
-  }, 2000);// 2 second  add .
+  }, 2500);// 2 second  add .
 
 }
 
