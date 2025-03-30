@@ -274,75 +274,39 @@ selectThemeBtn.addEventListener('click', () => {
 
 
 //
-document.addEventListener('DOMContentLoaded', function () {
-  // Check if mobile view (below 800px)
-  if (window.innerWidth > 800) return;
+document.addEventListener('DOMContentLoaded', function() {
+  const themes = document.querySelectorAll('.theme-item');
+  const previewBox = document.getElementById('preview-box');
+  let currentIndex = 0;
 
-  // DOM Elements
-  const container = document.querySelector('.theme-container');
-  const cards = document.querySelectorAll('.theme-card');
-  const prevBtn = document.querySelector('.prev-theme');
-  const nextBtn = document.querySelector('.next-theme');
-  const previewBox = document.getElementById('preview-box'); // Add this line
-  let currentIndex = 1; // Default selected card (second one)
-
-  // Hide all cards except current AND update preview
-  function updateSlider() {
-    cards.forEach((card, index) => {
-      if (index === currentIndex) {
-        card.style.display = 'block';
-        card.classList.remove('blur');
-        
-        // Smooth scroll to card
-        card.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'center'
-        });
-
-        // 🔥 NEW: Update preview box with current card's image
-        const cardImage = card.querySelector('img');
-        if (cardImage && previewBox) {
-          previewBox.src = cardImage.src;
-          previewBox.style.opacity = '0';
-          setTimeout(() => previewBox.style.opacity = '1', 50);
-        }
-      } else {
-        card.style.display = 'none';
-      }
-    });
+  function showTheme(index) {
+      // Handle looping
+      if(index >= themes.length) index = 0;
+      if(index < 0) index = themes.length - 1;
+      currentIndex = index;
+      
+      // Get image from data attribute
+      const imgSrc = themes[index].getAttribute('data-image');
+      
+      // Smooth transition logic
+      previewBox.style.opacity = 0;
+      setTimeout(() => {
+          previewBox.src = imgSrc;
+          previewBox.style.opacity = 1;
+          
+          // Update active class
+          themes.forEach(theme => theme.classList.remove('active'));
+          themes[index].classList.add('active');
+      }, 300);
   }
 
-  // Next card function
-  function showNext() {
-    currentIndex = (currentIndex + 1) % cards.length;
-    updateSlider();
-  }
+  // Click events for themes
+  themes.forEach((theme, index) => {
+      theme.addEventListener('click', () => showTheme(index));
+  });
 
-  // Previous card function
-  function showPrev() {
-    currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-    updateSlider();
-  }
-
-  // Initialize slider
-  updateSlider();
-
-  // Button event listeners
-  nextBtn.addEventListener('click', showNext);
-  prevBtn.addEventListener('click', showPrev);
-
-  // Touch swipe support (optional)
-  let touchStartX = 0;
-  container.addEventListener('touchstart', (e) => {
-    touchStartX = e.touches[0].clientX;
-  }, { passive: true });
-
-  container.addEventListener('touchend', (e) => {
-    const touchEndX = e.changedTouches[0].clientX;
-    if (touchEndX < touchStartX - 50) showNext(); // Swipe left
-    if (touchEndX > touchStartX + 50) showPrev(); // Swipe right
-  }, { passive: true });
+  // Initialize first theme
+  showTheme(0);
 });
 
 
