@@ -336,15 +336,31 @@ function drawCard(themeImageSrc, showModal = false) {
     // Clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw the theme image
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    // // Draw the theme image
+    // ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-    // Add user name to the card
-    const userName = userNameInput.value || "Your Name";
-    ctx.font = "22px Gidole";
-    ctx.fillStyle = textColorSelect.value === "golden-black" ? "gold" : textColorSelect.value;
-    ctx.textAlign = "center";
-    ctx.fillText(`From: ${userName}`, canvas.width / 2, canvas.height - 30);
+    // // Add user name to the card
+    // const userName = userNameInput.value || "Your Name";
+    // ctx.font = "22px Gidole";
+    // ctx.fillStyle = textColorSelect.value === "golden-black" ? "gold" : textColorSelect.value;
+    // ctx.textAlign = "center";
+    // ctx.fillText(`From: ${userName}`, canvas.width / 2, canvas.height - 30);
+
+    // Draw the theme image
+ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+// Add user name to the card
+const userName = userNameInput.value || "Your Name";
+
+// Font settings with mobile optimization
+const isMobile = window.innerWidth < 768;
+ctx.font = isMobile 
+  ? "700 20px 'Gidole', Arial, sans-serif"  // Mobile - bolder and slightly smaller
+  : "600 22px 'Gidole', sans-serif";        // Desktop
+
+ctx.fillStyle = textColorSelect.value === "golden-black" ? "gold" : textColorSelect.value;
+ctx.textAlign = "center";
+ctx.fillText(`From: ${userName}`, canvas.width / 2, canvas.height - 30);
 
     // Show the modal if `showModal` is true
     if (showModal) {
@@ -374,13 +390,13 @@ downloadButton.addEventListener('click', () => {
   const hdCanvas = document.createElement('canvas');
   const hdCtx = hdCanvas.getContext('2d');
   
-  // Set 4K Resolution (3840x2160) or adjust as needed
-  hdCanvas.width = canvas.width * 4;  // 4x for Ultra HD
-  hdCanvas.height = canvas.height * 4;
+  // Set 8K Resolution (7680x4320) or adjust as needed
+  hdCanvas.width = canvas.width * 8;  // 4x for Ultra HD
+  hdCanvas.height = canvas.height * 8;
   
   // 2. Draw Original Content (Crisp Scaling)
   hdCtx.imageSmoothingEnabled = false; // Anti-blur trick!
-  hdCtx.scale(4, 4);
+  hdCtx.scale(8, 8);
   hdCtx.drawImage(canvas, 0, 0);
   
   // 3. Download as PNG (MAX QUALITY)
@@ -395,12 +411,12 @@ const shareButton = document.getElementById('shareButton');
 shareButton.addEventListener('click', () => {
   const canvas = document.getElementById('card-canvas');
 
-  // 🔥 HD FIX: Create 4x resolution canvas
+  // 🔥 HD FIX: Create 8x resolution canvas
   const hdCanvas = document.createElement('canvas');
   const hdCtx = hdCanvas.getContext('2d');
-  hdCanvas.width = canvas.width * 4;  // 4x for Ultra HD
-  hdCanvas.height = canvas.height * 4;
-  hdCtx.scale(4, 4);
+  hdCanvas.width = canvas.width * 8;  // 4x for Ultra HD
+  hdCanvas.height = canvas.height * 8;
+  hdCtx.scale(8, 8);
   hdCtx.drawImage(canvas, 0, 0);
 
   // Your original code (with hdCanvas instead of canvas)

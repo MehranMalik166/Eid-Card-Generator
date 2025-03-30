@@ -719,7 +719,7 @@ button:hover {
 .close-btn {
   position: absolute; 
    /* Position inside modal-content  */ 
-   top: -22px; 
+   top: -18px; 
    /* Position from top  */
    right: -25px; 
    /* Position from right  */
