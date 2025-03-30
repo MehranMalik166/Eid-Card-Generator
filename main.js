@@ -210,64 +210,67 @@ selectThemeBtn.addEventListener('click', () => {
 });
 
 // //**************** 800px ke niche ka theme slected ka javascript code ************* */
-document.addEventListener('DOMContentLoaded', function() {
-  // 1. Get all elements
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Check if mobile view (below 800px)
+  if (window.innerWidth > 800) return;
+
+  // DOM Elements
+  const container = document.querySelector('.theme-container');
   const cards = document.querySelectorAll('.theme-card');
   const prevBtn = document.querySelector('.prev-theme');
   const nextBtn = document.querySelector('.next-theme');
-  const selectBtn = document.querySelector('.select-theme');
-  let currentIndex = 1; // Default 2nd card selected (tumhare HTML ke hisab se)
+  let currentIndex = 1; // Default selected card (second one)
 
-  // 2. Card Selection Logic (Tumhara Original)
+  // Hide all cards except current
   function updateSlider() {
     cards.forEach((card, index) => {
-      if(index === currentIndex) {
+      if (index === currentIndex) {
+        card.style.display = 'block';
         card.classList.remove('blur');
-        // Scroll to center (smooth sliding)
+        // Smooth scroll to card
         card.scrollIntoView({
           behavior: 'smooth',
           block: 'nearest',
           inline: 'center'
         });
       } else {
-        card.classList.add('blur');
+        card.style.display = 'none';
       }
     });
-    // Fatak se preview update
-    updatePreview(currentIndex + 1); // +1 because theme IDs start from 1
   }
 
-  // 3. Navigation Controls (Tumhara Original Logic)
-  nextBtn.addEventListener('click', () => {
+  // Next card function
+  function showNext() {
     currentIndex = (currentIndex + 1) % cards.length;
     updateSlider();
-  });
+  }
 
-  prevBtn.addEventListener('click', () => {
+  // Previous card function
+  function showPrev() {
     currentIndex = (currentIndex - 1 + cards.length) % cards.length;
     updateSlider();
-  });
-
-  // 4. Select Button (Instant Preview)
-  selectBtn.addEventListener('click', () => {
-    updatePreview(currentIndex + 1); // +1 for theme ID
-    selectBtn.textContent = "✓ Selected!";
-    setTimeout(() => selectBtn.textContent = "Select", 1000);
-  });
-
-  // 5. Preview Update Function (Yahan Tumhara Code Aayega)
-  function updatePreview(themeId) {
-    console.log("Theme Selected:", themeId);
-    /* 
-    Yahan tumhara preview update code aayega jaise:
-    - document.getElementById('preview-image').src = `theme-${themeId}.png`;
-    - Ya canvas drawing code
-    */
   }
 
   // Initialize slider
   updateSlider();
-});
+
+  // Button event listeners
+  nextBtn.addEventListener('click', showNext);
+  prevBtn.addEventListener('click', showPrev);
+
+  // Touch swipe support (optional)
+  let touchStartX = 0;
+  container.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+
+  container.addEventListener('touchend', (e) => {
+    const touchEndX = e.changedTouches[0].clientX;
+    if (touchEndX < touchStartX - 50) showNext(); // Swipe left
+    if (touchEndX > touchStartX + 50) showPrev(); // Swipe right
+  }, { passive: true });
+})
 
 
 //
