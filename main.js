@@ -336,15 +336,6 @@ function drawCard(themeImageSrc, showModal = false) {
     // Clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // // Draw the theme image
-    // ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-    // // Add user name to the card
-    // const userName = userNameInput.value || "Your Name";
-    // ctx.font = "22px Gidole";
-    // ctx.fillStyle = textColorSelect.value === "golden-black" ? "gold" : textColorSelect.value;
-    // ctx.textAlign = "center";
-    // ctx.fillText(`From: ${userName}`, canvas.width / 2, canvas.height - 30);
 
     // Draw the theme image
 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
