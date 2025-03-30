@@ -110,6 +110,7 @@
   .pop_msg{
     font-size: 10px;
   }
+  
 }
 /* ye 600px se 700 px tak image shi lane ke liye */
 @media  (min-width: 600px) and (max-width: 800px){
@@ -135,6 +136,9 @@
     color: #333;
     margin-top: 10px;
     max-height: 30px;
+  }
+  .close-btn{
+    font-size: 15px;
   }
 }
 
@@ -249,7 +253,7 @@
     max-height: 30px;
   }
   .close-btn{
-    font-size: 18px;
+    font-size: 15px;
   }
 }
 

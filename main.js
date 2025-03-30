@@ -370,26 +370,24 @@ const downloadButton = document.getElementById('downloadButton');
 downloadButton.addEventListener('click', () => {
   const canvas = document.getElementById('card-canvas');
   
-  // 1. Create a temporary HD canvas (2x resolution)
+  // 1. Create a HIGH-RES Canvas (4x Resolution)
   const hdCanvas = document.createElement('canvas');
   const hdCtx = hdCanvas.getContext('2d');
   
-  // 2. Set HD dimensions (2x original)
-  hdCanvas.width = canvas.width * 2;
-  hdCanvas.height = canvas.height * 2;
+  // Set 4K Resolution (3840x2160) or adjust as needed
+  hdCanvas.width = canvas.width * 4;  // 4x for Ultra HD
+  hdCanvas.height = canvas.height * 4;
   
-  // 3. Draw original content with scaling
-  hdCtx.scale(2, 2);
+  // 2. Draw Original Content (Crisp Scaling)
+  hdCtx.imageSmoothingEnabled = false; // Anti-blur trick!
+  hdCtx.scale(4, 4);
   hdCtx.drawImage(canvas, 0, 0);
   
-  // 4. Download HD image (same process as before)
+  // 3. Download as PNG (MAX QUALITY)
   const link = document.createElement('a');
-  link.download = 'Eid-Card-HD.png'; 
-  link.href = hdCanvas.toDataURL('image/png', 1.0); // Maximum quality
+  link.download = 'Eid-Card-UltraHD.png';
+  link.href = hdCanvas.toDataURL('image/png', 1.0); // 1.0 = No compression
   link.click();
-  
-  // 5. Cleanup
-  hdCanvas.remove();
 });
 // Share Button
 const shareButton = document.getElementById('shareButton');
@@ -397,12 +395,18 @@ const shareButton = document.getElementById('shareButton');
 shareButton.addEventListener('click', () => {
   const canvas = document.getElementById('card-canvas');
 
-  // Convert canvas to blob
-  canvas.toBlob((blob) => {
-    // Create a file from the blob
-    const file = new File([blob], 'Eid-Card.png', { type: 'image/png' });
+  // 🔥 HD FIX: Create 4x resolution canvas
+  const hdCanvas = document.createElement('canvas');
+  const hdCtx = hdCanvas.getContext('2d');
+  hdCanvas.width = canvas.width * 4;  // 4x for Ultra HD
+  hdCanvas.height = canvas.height * 4;
+  hdCtx.scale(4, 4);
+  hdCtx.drawImage(canvas, 0, 0);
 
-    // Check if the browser supports the share API
+  // Your original code (with hdCanvas instead of canvas)
+  hdCanvas.toBlob((blob) => {
+    const file = new File([blob], 'Eid-Card-HD.png', { type: 'image/png' });
+
     if (navigator.share) {
       navigator.share({
         title: 'Eid Mubarak!',
@@ -414,6 +418,6 @@ shareButton.addEventListener('click', () => {
     } else {
       alert('Sharing is not supported in your browser.');
     }
-  });
+  }, 'image/png', 1.0); // Maximum quality
 });
 
