@@ -214,7 +214,6 @@ selectThemeBtn.addEventListener('click', () => {
 // document.addEventListener('DOMContentLoaded', function () {
 //   // Check if mobile view (below 800px)
 //   if (window.innerWidth > 800) return;
-
 //   // DOM Elements
 //   const container = document.querySelector('.theme-container');
 //   const cards = document.querySelectorAll('.theme-card');
@@ -275,88 +274,72 @@ selectThemeBtn.addEventListener('click', () => {
 
 //
 document.addEventListener('DOMContentLoaded', function() {
-  // Slider Elements
-  const slider = document.querySelector('.theme-slider-container');
-  const slides = document.querySelectorAll('.theme-slide');
-  const previewBox = document.getElementById('preview-box');
-  const prevBtn = document.getElementById('prev-theme');
-  const nextBtn = document.getElementById('next-theme');
-  
-  let currentIndex = 0;
-  let startX, moveX;
-  const swipeThreshold = 50;
+  // Mobile view check (800px se niche)
+  if (window.innerWidth > 800) return;
 
-  // Initialize Slider
-  function initSlider() {
-      updateSlider();
-      updatePreview();
-  }
+  // DOM Elements
+  const container = document.querySelector('.theme-container');
+  const cards = document.querySelectorAll('.theme-card');
+  const prevBtn = document.querySelector('.prev-theme');
+  const nextBtn = document.querySelector('.next-theme');
+  let currentIndex = 1; // Default selected card (second one)
 
-  // Update Slider Position
+  // Hide all cards except current
   function updateSlider() {
-      slides.forEach((slide, index) => {
-          slide.classList.toggle('active', index === currentIndex);
-      });
-      
-      // For horizontal sliding effect
-      slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-  }
-
-  // Update Preview Image
-  function updatePreview() {
-      const activeSlide = slides[currentIndex];
-      const imgSrc = activeSlide.getAttribute('data-preview');
-      previewBox.src = imgSrc;
-  }
-
-  // Go to Specific Slide
-  function goToSlide(index) {
-      // Handle looping
-      currentIndex = (index + slides.length) % slides.length;
-      updateSlider();
-      updatePreview();
-  }
-
-  // Next Slide
-  function nextSlide() {
-      goToSlide(currentIndex + 1);
-  }
-
-  // Previous Slide
-  function prevSlide() {
-      goToSlide(currentIndex - 1);
-  }
-
-  // Touch Events for Mobile
-  slider.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-  });
-
-  slider.addEventListener('touchmove', (e) => {
-      moveX = e.touches[0].clientX;
-  });
-
-  slider.addEventListener('touchend', () => {
-      if (startX - moveX > swipeThreshold) {
-          nextSlide(); // Swipe left
-      } else if (moveX - startX > swipeThreshold) {
-          prevSlide(); // Swipe right
+    cards.forEach((card, index) => {
+      if (index === currentIndex) {
+        card.style.display = 'block';
+        card.classList.remove('blur');
+        // Smooth scroll to card
+        card.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center'
+        });
+      } else {
+        card.style.display = 'none';
       }
-  });
+    });
 
-  // Button Events
-  nextBtn?.addEventListener('click', nextSlide);
-  prevBtn?.addEventListener('click', prevSlide);
+    // Button disable/enable logic
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.disabled = currentIndex === cards.length - 1;
+  }
 
-  // Click Events for Slides
-  slides.forEach((slide, index) => {
-      slide.addEventListener('click', () => {
-          goToSlide(index);
-      });
-  });
+  // Next card function (no looping)
+  function showNext() {
+    if (currentIndex < cards.length - 1) {
+      currentIndex++;
+      updateSlider();
+    }
+  }
 
-  // Initialize
-  initSlider();
+  // Previous card function (no looping)
+  function showPrev() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateSlider();
+    }
+  }
+
+  // Initialize slider
+  updateSlider();
+
+  // Button event listeners
+  nextBtn.addEventListener('click', showNext);
+  prevBtn.addEventListener('click', showPrev);
+
+  // Touch swipe support
+  let touchStartX = 0;
+  container.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+
+  container.addEventListener('touchend', (e) => {
+    const touchEndX = e.changedTouches[0].clientX;
+    if (touchEndX < touchStartX - 50) showNext(); // Swipe left
+    if (touchEndX > touchStartX + 50) showPrev(); // Swipe right
+  }, { passive: true });
 });
 
 

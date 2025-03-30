@@ -103,6 +103,12 @@
   /* Add your active slide styles */
   border: 2px solid #4CAF50;
 }
+/* Disabled buttons styling */
+.prev-theme:disabled, 
+.next-theme:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
   .prev_text{
     font-size: 25px;
     text-align: center;
