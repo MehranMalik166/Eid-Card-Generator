@@ -275,14 +275,14 @@ selectThemeBtn.addEventListener('click', () => {
 //
 
 document.addEventListener('DOMContentLoaded', function() {
-  const container = document.getElementById('themeContainer');
+  const container = document.querySelector('.theme-container');
   const cards = document.querySelectorAll('.theme-card');
   const prevBtn = document.querySelector('.prev-theme');
   const nextBtn = document.querySelector('.next-theme');
   const selectBtn = document.querySelector('.select-theme');
-  let currentIndex = 1; // Start with second card (as per your HTML)
+  let currentIndex = 1; // 2nd card selected by default (tumhare HTML ke hisab se)
 
-  // 1. PRE-LOAD ALL IMAGES
+  // 1. PRE-LOAD ALL IMAGES (Zero delay ke liye)
   const themeImages = {};
   cards.forEach(card => {
     const img = new Image();
@@ -290,19 +290,22 @@ document.addEventListener('DOMContentLoaded', function() {
     themeImages[card.dataset.theme] = img;
   });
 
-  // 2. UPDATE PREVIEW (INSTANT)
+  // 2. INSTANT PREVIEW UPDATE FUNCTION
   function updatePreview(themeId) {
     console.log("Selected Theme:", themeId);
-    // Tumhara preview update code yahan aayega
-    // document.getElementById('preview-image').src = `path/${themeId}.png`;
+    // Yahan tumhara preview update code aayega
+    // Example: document.getElementById('preview-image').src = `images/${themeId}.png`;
   }
 
-  // 3. SHOW SELECTED CARD
+  // 3. SHOW SELECTED CARD (Smooth sliding)
   function showCard(index) {
+    currentIndex = index;
+    
     cards.forEach((card, i) => {
-      const isActive = i === index;
-      card.classList.toggle('blur', !isActive);
-      if (isActive) {
+      // Update active/blur state
+      if(i === index) {
+        card.classList.remove('blur');
+        // Scroll to center
         card.scrollIntoView({
           behavior: 'smooth',
           block: 'nearest',
@@ -310,30 +313,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         // INSTANT PREVIEW UPDATE
         updatePreview(card.dataset.theme);
+      } else {
+        card.classList.add('blur');
       }
     });
-    currentIndex = index;
   }
 
-  // 4. NAVIGATION
+  // 4. BUTTON CONTROLS
   nextBtn.addEventListener('click', () => {
-    const nextIndex = (currentIndex + 1) % cards.length;
+    let nextIndex = currentIndex + 1;
+    if(nextIndex >= cards.length) nextIndex = 0; // Loop to first
     showCard(nextIndex);
   });
 
   prevBtn.addEventListener('click', () => {
-    const prevIndex = (currentIndex - 1 + cards.length) % cards.length;
+    let prevIndex = currentIndex - 1;
+    if(prevIndex < 0) prevIndex = cards.length - 1; // Loop to last
     showCard(prevIndex);
   });
 
-  // 5. SELECT BUTTON (ZERO DELAY)
+  // 5. SELECT BUTTON (Fatak se update)
   selectBtn.addEventListener('click', () => {
     const activeCard = document.querySelector('.theme-card:not(.blur)');
-    if (activeCard) {
-      updatePreview(activeCard.dataset.theme);
-      selectBtn.textContent = "✓ Selected!";
-      setTimeout(() => selectBtn.textContent = "Select", 1000);
-    }
+    updatePreview(activeCard.dataset.theme);
+    selectBtn.textContent = "✓ Selected!";
+    setTimeout(() => selectBtn.textContent = "Select", 500);
   });
 
   // Initialize

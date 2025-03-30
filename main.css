@@ -515,6 +515,15 @@ body {
   cursor: pointer;
 }
 
+.theme-container {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.theme-card {
+  transition: all 0.3s ease;
+}
+
 /*************************** User Input Section **************************/
 /* ===== Base Styles (Mobile First) ===== */
 .user-text{
