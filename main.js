@@ -211,6 +211,69 @@ selectThemeBtn.addEventListener('click', () => {
 
 // //**************** 800px ke niche ka theme slected ka javascript code ************* */
 
+// document.addEventListener('DOMContentLoaded', function () {
+//   // Check if mobile view (below 800px)
+//   if (window.innerWidth > 800) return;
+
+//   // DOM Elements
+//   const container = document.querySelector('.theme-container');
+//   const cards = document.querySelectorAll('.theme-card');
+//   const prevBtn = document.querySelector('.prev-theme');
+//   const nextBtn = document.querySelector('.next-theme');
+//   let currentIndex = 1; // Default selected card (second one)
+
+//   // Hide all cards except current
+//   function updateSlider() {
+//     cards.forEach((card, index) => {
+//       if (index === currentIndex) {
+//         card.style.display = 'block';
+//         card.classList.remove('blur');
+//         // Smooth scroll to card
+//         card.scrollIntoView({
+//           behavior: 'smooth',
+//           block: 'nearest',
+//           inline: 'center'
+//         });
+//       } else {
+//         card.style.display = 'none';
+//       }
+//     });
+//   }
+
+//   // Next card function
+//   function showNext() {
+//     currentIndex = (currentIndex + 1) % cards.length;
+//     updateSlider();
+//   }
+
+//   // Previous card function
+//   function showPrev() {
+//     currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+//     updateSlider();
+//   }
+
+//   // Initialize slider
+//   updateSlider();
+
+//   // Button event listeners
+//   nextBtn.addEventListener('click', showNext);
+//   prevBtn.addEventListener('click', showPrev);
+
+//   // Touch swipe support (optional)
+//   let touchStartX = 0;
+//   container.addEventListener('touchstart', (e) => {
+//     touchStartX = e.touches[0].clientX;
+//   }, { passive: true });
+
+//   container.addEventListener('touchend', (e) => {
+//     const touchEndX = e.changedTouches[0].clientX;
+//     if (touchEndX < touchStartX - 50) showNext(); // Swipe left
+//     if (touchEndX > touchStartX + 50) showPrev(); // Swipe right
+//   }, { passive: true });
+// })
+
+
+//
 document.addEventListener('DOMContentLoaded', function () {
   // Check if mobile view (below 800px)
   if (window.innerWidth > 800) return;
@@ -220,20 +283,30 @@ document.addEventListener('DOMContentLoaded', function () {
   const cards = document.querySelectorAll('.theme-card');
   const prevBtn = document.querySelector('.prev-theme');
   const nextBtn = document.querySelector('.next-theme');
+  const previewBox = document.getElementById('preview-box'); // Add this line
   let currentIndex = 1; // Default selected card (second one)
 
-  // Hide all cards except current
+  // Hide all cards except current AND update preview
   function updateSlider() {
     cards.forEach((card, index) => {
       if (index === currentIndex) {
         card.style.display = 'block';
         card.classList.remove('blur');
+        
         // Smooth scroll to card
         card.scrollIntoView({
           behavior: 'smooth',
           block: 'nearest',
           inline: 'center'
         });
+
+        // 🔥 NEW: Update preview box with current card's image
+        const cardImage = card.querySelector('img');
+        if (cardImage && previewBox) {
+          previewBox.src = cardImage.src;
+          previewBox.style.opacity = '0';
+          setTimeout(() => previewBox.style.opacity = '1', 50);
+        }
       } else {
         card.style.display = 'none';
       }
@@ -270,10 +343,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (touchEndX < touchStartX - 50) showNext(); // Swipe left
     if (touchEndX > touchStartX + 50) showPrev(); // Swipe right
   }, { passive: true });
-})
-
-
-//
+});
 
 
 
