@@ -98,6 +98,11 @@
     opacity: 1;
     transform: none;
   }
+  /* Active Slide */
+.theme-slide.active {
+  /* Add your active slide styles */
+  border: 2px solid #4CAF50;
+}
   .prev_text{
     font-size: 25px;
     text-align: center;

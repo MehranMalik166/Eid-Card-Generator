@@ -275,40 +275,89 @@ selectThemeBtn.addEventListener('click', () => {
 
 //
 document.addEventListener('DOMContentLoaded', function() {
-  const themes = document.querySelectorAll('.theme-item');
+  // Slider Elements
+  const slider = document.querySelector('.theme-slider-container');
+  const slides = document.querySelectorAll('.theme-slide');
   const previewBox = document.getElementById('preview-box');
+  const prevBtn = document.getElementById('prev-theme');
+  const nextBtn = document.getElementById('next-theme');
+  
   let currentIndex = 0;
+  let startX, moveX;
+  const swipeThreshold = 50;
 
-  function showTheme(index) {
-      // Handle looping
-      if(index >= themes.length) index = 0;
-      if(index < 0) index = themes.length - 1;
-      currentIndex = index;
-      
-      // Get image from data attribute
-      const imgSrc = themes[index].getAttribute('data-image');
-      
-      // Smooth transition logic
-      previewBox.style.opacity = 0;
-      setTimeout(() => {
-          previewBox.src = imgSrc;
-          previewBox.style.opacity = 1;
-          
-          // Update active class
-          themes.forEach(theme => theme.classList.remove('active'));
-          themes[index].classList.add('active');
-      }, 300);
+  // Initialize Slider
+  function initSlider() {
+      updateSlider();
+      updatePreview();
   }
 
-  // Click events for themes
-  themes.forEach((theme, index) => {
-      theme.addEventListener('click', () => showTheme(index));
+  // Update Slider Position
+  function updateSlider() {
+      slides.forEach((slide, index) => {
+          slide.classList.toggle('active', index === currentIndex);
+      });
+      
+      // For horizontal sliding effect
+      slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+  }
+
+  // Update Preview Image
+  function updatePreview() {
+      const activeSlide = slides[currentIndex];
+      const imgSrc = activeSlide.getAttribute('data-preview');
+      previewBox.src = imgSrc;
+  }
+
+  // Go to Specific Slide
+  function goToSlide(index) {
+      // Handle looping
+      currentIndex = (index + slides.length) % slides.length;
+      updateSlider();
+      updatePreview();
+  }
+
+  // Next Slide
+  function nextSlide() {
+      goToSlide(currentIndex + 1);
+  }
+
+  // Previous Slide
+  function prevSlide() {
+      goToSlide(currentIndex - 1);
+  }
+
+  // Touch Events for Mobile
+  slider.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
   });
 
-  // Initialize first theme
-  showTheme(0);
-});
+  slider.addEventListener('touchmove', (e) => {
+      moveX = e.touches[0].clientX;
+  });
 
+  slider.addEventListener('touchend', () => {
+      if (startX - moveX > swipeThreshold) {
+          nextSlide(); // Swipe left
+      } else if (moveX - startX > swipeThreshold) {
+          prevSlide(); // Swipe right
+      }
+  });
+
+  // Button Events
+  nextBtn?.addEventListener('click', nextSlide);
+  prevBtn?.addEventListener('click', prevSlide);
+
+  // Click Events for Slides
+  slides.forEach((slide, index) => {
+      slide.addEventListener('click', () => {
+          goToSlide(index);
+      });
+  });
+
+  // Initialize
+  initSlider();
+});
 
 
 // ***********************User Input and Preview***************//
