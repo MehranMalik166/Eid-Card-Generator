@@ -22,7 +22,7 @@ function initIntro() {
   setTimeout(() => {
     document.getElementById('eid-intro').style.display = 'none';
     document.getElementById('main-page').style.display = 'block';
-  }, 7000);
+  }, 4000);
 }
 
 // typing-text ka javascript //
