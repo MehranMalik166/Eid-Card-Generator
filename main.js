@@ -209,68 +209,147 @@ selectThemeBtn.addEventListener('click', () => {
   drawCard(selectedTheme);
 });
 
-//**************** 800px ke niche ka theme slected ka javascript code ************* */
-document.addEventListener('DOMContentLoaded', function () {
-  // Check if mobile view (below 800px)
-  if (window.innerWidth > 800) return;
+// //**************** 800px ke niche ka theme slected ka javascript code ************* */
+// document.addEventListener('DOMContentLoaded', function () {
+//   // Check if mobile view (below 800px)
+//   if (window.innerWidth > 800) return;
 
-  // DOM Elements
-  const container = document.querySelector('.theme-container');
+//   // DOM Elements
+//   const container = document.querySelector('.theme-container');
+//   const cards = document.querySelectorAll('.theme-card');
+//   const prevBtn = document.querySelector('.prev-theme');
+//   const nextBtn = document.querySelector('.next-theme');
+//   let currentIndex = 1; // Default selected card (second one)
+
+//   // Hide all cards except current
+//   function updateSlider() {
+//     cards.forEach((card, index) => {
+//       if (index === currentIndex) {
+//         card.style.display = 'block';
+//         card.classList.remove('blur');
+//         // Smooth scroll to card
+//         card.scrollIntoView({
+//           behavior: 'smooth',
+//           block: 'nearest',
+//           inline: 'center'
+//         });
+//       } else {
+//         card.style.display = 'none';
+//       }
+//     });
+//   }
+
+//   // Next card function
+//   function showNext() {
+//     currentIndex = (currentIndex + 1) % cards.length;
+//     updateSlider();
+//   }
+
+//   // Previous card function
+//   function showPrev() {
+//     currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+//     updateSlider();
+//   }
+
+//   // Initialize slider
+//   updateSlider();
+
+//   // Button event listeners
+//   nextBtn.addEventListener('click', showNext);
+//   prevBtn.addEventListener('click', showPrev);
+
+//   // Touch swipe support (optional)
+//   let touchStartX = 0;
+//   container.addEventListener('touchstart', (e) => {
+//     touchStartX = e.touches[0].clientX;
+//   }, { passive: true });
+
+//   container.addEventListener('touchend', (e) => {
+//     const touchEndX = e.changedTouches[0].clientX;
+//     if (touchEndX < touchStartX - 50) showNext(); // Swipe left
+//     if (touchEndX > touchStartX + 50) showPrev(); // Swipe right
+//   }, { passive: true });
+// });
+
+
+//
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Common elements
   const cards = document.querySelectorAll('.theme-card');
-  const prevBtn = document.querySelector('.prev-theme');
-  const nextBtn = document.querySelector('.next-theme');
-  let currentIndex = 1; // Default selected card (second one)
+  const selectBtn = document.querySelector('.select-theme');
+  
+  // Mobile view (800px ke niche)
+  if (window.innerWidth <= 800) {
+    const container = document.querySelector('.theme-container');
+    const prevBtn = document.querySelector('.prev-theme');
+    const nextBtn = document.querySelector('.next-theme');
+    let currentIndex = 0;
 
-  // Hide all cards except current
-  function updateSlider() {
-    cards.forEach((card, index) => {
-      if (index === currentIndex) {
-        card.style.display = 'block';
-        card.classList.remove('blur');
-        // Smooth scroll to card
-        card.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'center'
-        });
-      } else {
-        card.style.display = 'none';
-      }
-    });
+    // Initialize - show first card
+    function showCurrentCard() {
+      cards.forEach((card, index) => {
+        card.style.display = index === currentIndex ? 'block' : 'none';
+        card.classList.toggle('active', index === currentIndex);
+      });
+      // Immediately update preview
+      updatePreview(cards[currentIndex].dataset.theme); // Use data-theme attribute
+    }
+
+    // Navigation functions
+    function showNext() {
+      currentIndex = (currentIndex + 1) % cards.length;
+      showCurrentCard();
+    }
+
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+      showCurrentCard();
+    }
+
+    // Initialize
+    showCurrentCard();
+
+    // Event listeners
+    nextBtn.addEventListener('click', showNext);
+    prevBtn.addEventListener('click', showPrev);
+
+    // Touch support
+    let touchStartX = 0;
+    container.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+    }, {passive: true});
+
+    container.addEventListener('touchend', (e) => {
+      const touchEndX = e.changedTouches[0].clientX;
+      if (touchEndX < touchStartX - 50) showNext();
+      if (touchEndX > touchStartX + 50) showPrev();
+    }, {passive: true});
   }
 
-  // Next card function
-  function showNext() {
-    currentIndex = (currentIndex + 1) % cards.length;
-    updateSlider();
+  // Update preview immediately
+  function updatePreview(themeId) {
+    // Tumhara existing preview update code yahan aayega
+    console.log("Updating preview with theme:", themeId);
+    // Example: document.getElementById('preview-image').src = `images/${themeId}.jpg`;
+    
+    // Ya fir canvas update code
+    // generateCardDesign(themeId);
   }
 
-  // Previous card function
-  function showPrev() {
-    currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-    updateSlider();
-  }
-
-  // Initialize slider
-  updateSlider();
-
-  // Button event listeners
-  nextBtn.addEventListener('click', showNext);
-  prevBtn.addEventListener('click', showPrev);
-
-  // Touch swipe support (optional)
-  let touchStartX = 0;
-  container.addEventListener('touchstart', (e) => {
-    touchStartX = e.touches[0].clientX;
-  }, { passive: true });
-
-  container.addEventListener('touchend', (e) => {
-    const touchEndX = e.changedTouches[0].clientX;
-    if (touchEndX < touchStartX - 50) showNext(); // Swipe left
-    if (touchEndX > touchStartX + 50) showPrev(); // Swipe right
-  }, { passive: true });
+  // Select button click handler
+  selectBtn.addEventListener('click', function() {
+    const selectedCard = document.querySelector('.theme-card.active');
+    if (selectedCard) {
+      const themeId = selectedCard.dataset.theme;
+      updatePreview(themeId);
+      
+      // Instant feedback
+      selectBtn.textContent = "✓ Selected";
+      setTimeout(() => selectBtn.textContent = "Select Theme", 1000);
+    }
+  });
 });
-
 
 // ***********************User Input and Preview***************//
 const userNameInput = document.getElementById('user-name');
