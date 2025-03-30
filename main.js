@@ -363,20 +363,34 @@ function closePopup() {
 }
 
 // Download Button Fix
+// 
+
 const downloadButton = document.getElementById('downloadButton');
 
 downloadButton.addEventListener('click', () => {
   const canvas = document.getElementById('card-canvas');
-
-  // Ensure the image is completely drawn before downloading
-  setTimeout(() => {
-    const link = document.createElement('a');
-    link.download = 'Eid-Card.png'; // File name
-    link.href = canvas.toDataURL('image/png'); // Convert canvas to image URL
-    link.click(); // Trigger download
-  }, 500); // Wait to make sure the canvas is updated
+  
+  // 1. Create a temporary HD canvas (2x resolution)
+  const hdCanvas = document.createElement('canvas');
+  const hdCtx = hdCanvas.getContext('2d');
+  
+  // 2. Set HD dimensions (2x original)
+  hdCanvas.width = canvas.width * 2;
+  hdCanvas.height = canvas.height * 2;
+  
+  // 3. Draw original content with scaling
+  hdCtx.scale(2, 2);
+  hdCtx.drawImage(canvas, 0, 0);
+  
+  // 4. Download HD image (same process as before)
+  const link = document.createElement('a');
+  link.download = 'Eid-Card-HD.png'; 
+  link.href = hdCanvas.toDataURL('image/png', 1.0); // Maximum quality
+  link.click();
+  
+  // 5. Cleanup
+  hdCanvas.remove();
 });
-
 // Share Button
 const shareButton = document.getElementById('shareButton');
 

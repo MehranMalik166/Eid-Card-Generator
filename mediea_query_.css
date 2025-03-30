@@ -248,6 +248,9 @@
     margin-top: 10px;
     max-height: 30px;
   }
+  .close-btn{
+    font-size: 18px;
+  }
 }
 
 @media  (min-width: 280px) and (max-width: 300px) {
@@ -296,5 +299,8 @@
     color: #333;
     margin-top: 10px;
     max-height: 30px;
+  }
+  .close-btn{
+    font-size: 12px;
   }
 }
