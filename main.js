@@ -1,59 +1,59 @@
 
-//********************** Intro Page JavaScript code */
-function createStars() {
-  for (let i = 0; i < 100; i++) {
-    const star = document.createElement('div');
-    star.className = 'star';
-    star.style.left = Math.random() * 100 + 'vw'; /* Random position */
-    star.style.top = Math.random() * 100 + 'vh';
-    star.style.width = (Math.random() * 3 + 2) + 'px'; /* Random size */
-    star.style.height = star.style.width;
-    star.style.animationDuration = (2 + Math.random() * 3) + 's'; /* Random speed */
-    star.style.animationDelay = Math.random() * 5 + 's'; /* Random delay */
-    document.getElementById('eid-intro').appendChild(star);
-  }
-}
+// //********************** Intro Page JavaScript code */
+// function createStars() {
+//   for (let i = 0; i < 100; i++) {
+//     const star = document.createElement('div');
+//     star.className = 'star';
+//     star.style.left = Math.random() * 100 + 'vw'; /* Random position */
+//     star.style.top = Math.random() * 100 + 'vh';
+//     star.style.width = (Math.random() * 3 + 2) + 'px'; /* Random size */
+//     star.style.height = star.style.width;
+//     star.style.animationDuration = (2 + Math.random() * 3) + 's'; /* Random speed */
+//     star.style.animationDelay = Math.random() * 5 + 's'; /* Random delay */
+//     document.getElementById('eid-intro').appendChild(star);
+//   }
+// }
 
-// Intro screen ko initialize kare
-function initIntro() {
-  createStars(); /* Stars create karo */
+// // Intro screen ko initialize kare
+// function initIntro() {
+//   createStars(); /* Stars create karo */
 
-  // 7 second baad intro hat jayega aur website show hoga
-  setTimeout(() => {
-    document.getElementById('eid-intro').style.display = 'none';
-    document.getElementById('main-page').style.display = 'block';
-  }, 2500);// 2 second  add .
+//   // 7 second baad intro hat jayega aur website show hoga
+//   setTimeout(() => {
+//     document.getElementById('eid-intro').style.display = 'none';
+//     document.getElementById('main-page').style.display = 'block';
+//   }, 2500);// 2 second  add .
 
-}
+// }
 
-// typing-text ka javascript //
-const text = " Mehran Malik";
-let index = 0;
-const speed = 150;
-const element = document.getElementById("typingText");
+// // typing-text ka javascript //
+// const text = " Mehran Malik";
+// let index = 0;
+// const speed = 150;
+// const element = document.getElementById("typingText");
 
-function typeEffect() {
-  if (index < text.length) {
-    element.textContent += text.charAt(index);
-    index++;
-    setTimeout(typeEffect, speed);
-  }
-}
+// function typeEffect() {
+//   if (index < text.length) {
+//     element.textContent += text.charAt(index);
+//     index++;
+//     setTimeout(typeEffect, speed);
+//   }
+// }
 
-// Start typing after short delay
-setTimeout(typeEffect, 500);
+// // Start typing after short delay
+// setTimeout(typeEffect, 500);
 
-// Handle mobile viewport height issues
-function adjustViewportHeight() {
-  let vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty('--vh', `${vh}px`);
-}
+// // Handle mobile viewport height issues
+// function adjustViewportHeight() {
+//   let vh = window.innerHeight * 0.01;
+//   document.documentElement.style.setProperty('--vh', `${vh}px`);
+// }
 
-window.addEventListener('resize', adjustViewportHeight);
-adjustViewportHeight();
+// window.addEventListener('resize', adjustViewportHeight);
+// adjustViewportHeight();
 
-// Page load hone par intro start hoga
-window.onload = initIntro;
+// // Page load hone par intro start hoga
+// window.onload = initIntro;
 
 
 // *********************after intro page************************// 

@@ -7,7 +7,7 @@ body {
 }
 
 /* Yeh sab styling intro ke liye hai - website ko affect nahi karega */
-#eid-intro {
+/* #eid-intro {
   position: fixed;
   top: 0;
   left: 0;
@@ -22,10 +22,10 @@ body {
   font-family: 'Arial', sans-serif;
   color: white;
   overflow: hidden;
-}
+} */
 
 /* Stars banane ka CSS */
-.star {
+/* .star {
   position: absolute;
   width: 3px;
   height: 3px;
@@ -45,14 +45,13 @@ body {
     transform: translateY(100vh);
     opacity: 0;
   }
-}
+} */
 
 /* Text styling */
-#eid-title {
+/* #eid-title {
   font-size: 2rem;
   margin-bottom: 2rem;
   color: #FFD700;
-  /* Golden color */
   text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
   letter-spacing: 4px;
   display: inline-block;
@@ -135,10 +134,10 @@ body {
   opacity: 0;
   animation: fadeIn 2s forwards 1s;
   /* 1 second baad show hoga */
-}
+/* } */
 
 /* .typing-text animation ka css hai */
-@keyframes fadeIn {
+/* @keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -156,13 +155,13 @@ body {
   text-align: center;
   width: 100%;
   max-width: 800px;
-}
+} */
 
-.static-text {
+/* .static-text {
   color: aqua;
-  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-size: clamp(1.5rem, 5vw, 2rem); */
   /* Responsive font size */
-  margin-right: 10px;
+  /* margin-right: 10px;
   
 }
 
@@ -170,19 +169,19 @@ body {
   position: relative;
   bottom: 5px;
   color: aqua;
-  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-size: clamp(1.5rem, 5vw, 2rem); */
   /* Responsive font size */
-  border-right: 0.15em solid white;
+  /* border-right: 0.15em solid white;
   animation: blink-caret 0.75s step-end infinite;
   white-space: nowrap;
   overflow: hidden;
-  height: 1.2em;
+  height: 1.2em; */
   /* Fixed height to prevent layout shift */
-  font-family: "DM Mono", monospace;
+  /* font-family: "DM Mono", monospace;
   font-weight: 500;
-  font-style: normal;
+  font-style: normal; */
 
-  }
+  /* }
 
 
 @keyframes blink-caret {
@@ -195,10 +194,10 @@ body {
   50% {
     border-color: white;
   }
-}
+} */
 
 /* Mobile-specific adjustments */
-@media (max-width: 480px) {
+/* @media (max-width: 480px) {
   .container {
     flex-direction: column;
   }
@@ -208,7 +207,7 @@ body {
     margin-bottom: 10px;
   }
 }
-
+ */
 
 
 /***************************** Main Website Page ************************************8*/
