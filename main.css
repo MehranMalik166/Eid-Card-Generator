@@ -263,35 +263,6 @@ body {
   width: 100%;
 }
 
-/* Responsive Adjustments */
-/* @media (max-width: 992px) {
-  .nav-outline,
-  .nav-fill {
-      font-size: 2.2rem;
-      -webkit-text-stroke: 1.2px #fff;
-  }
-}
-
-@media (max-width: 768px) {
-  .navbar {
-      padding: 1rem 1.5rem;
-  }
-  
-  .nav-outline,
-  .nav-fill {
-      font-size: 1.8rem;
-      -webkit-text-stroke: 1px #fff;
-  }
-}
-
-@media (min-width: 280px) and (max-width: 480px) {
-  .nav-outline,
-  .nav-fill {
-      font-size: 1.5rem;
-  }
-} */
- 
-
 
 /* image slider ka styling code hai. */
 

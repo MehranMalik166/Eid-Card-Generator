@@ -161,254 +161,56 @@ window.addEventListener('resize', function () {
 });
 
 //********** Select theme-slider code  */
-// const themeContainer = document.querySelector('.theme-container');
-// const themeCards = document.querySelectorAll('.theme-card');
-// const prevThemeBtn = document.querySelector('.prev-theme');
-// const nextThemeBtn = document.querySelector('.next-theme');
-// const selectThemeBtn = document.querySelector('.select-theme');
-// const cardCanvas = document.getElementById('card-canvas');
-// const ctx = cardCanvas.getContext('2d');
+const themeContainer = document.querySelector('.theme-container');
+const themeCards = document.querySelectorAll('.theme-card');
+const prevThemeBtn = document.querySelector('.prev-theme');
+const nextThemeBtn = document.querySelector('.next-theme');
+const selectThemeBtn = document.querySelector('.select-theme');
+const cardCanvas = document.getElementById('card-canvas');
+const ctx = cardCanvas.getContext('2d');
 
-// let currentThemeIndex = 1;
+let currentThemeIndex = 1;
 
-// function updateThemeSlider() {
-//   themeCards.forEach((card, index) => {
-//     if (index === currentThemeIndex) {
-//       card.classList.remove('blur');
-//     } else {
-//       card.classList.add('blur');
-//     }
-//   });
-// }
-
-// prevThemeBtn.addEventListener('click', () => {
-//   if (currentThemeIndex > 0) {
-//     currentThemeIndex--;
-//     updateThemeSlider();
-//   }
-// });
-
-// nextThemeBtn.addEventListener('click', () => {
-//   if (currentThemeIndex < themeCards.length - 1) {
-//     currentThemeIndex++;
-//     updateThemeSlider();
-//   }
-// });
-
-// // Select Theme on Image Click
-// themeCards.forEach((card, index) => {
-//   card.addEventListener('click', () => {
-//     currentThemeIndex = index;
-//     updateThemeSlider();
-//   });
-// });
-
-// // Select Theme on Button Click
-// selectThemeBtn.addEventListener('click', () => {
-//   const selectedTheme = themeCards[currentThemeIndex].querySelector('img').src;
-//   drawCard(selectedTheme);
-// });
-
-document.addEventListener('DOMContentLoaded', function() {
-  // DOM Elements
-  const themeCards = document.querySelectorAll('.theme-card');
-  const prevBtn = document.querySelector('.prev-theme');
-  const nextBtn = document.querySelector('.next-theme');
-  const selectBtn = document.querySelector('.select-theme');
-  const cardCanvas = document.getElementById('card-canvas');
-  const ctx = cardCanvas.getContext('2d', { willReadFrequently: true });
-
-  // Configuration
-  const config = {
-    currentIndex: 1, // Starts with second card selected
-    transitionSpeed: 300, // Animation duration in ms
-    swipeThreshold: 50 // Minimum swipe distance in pixels
-  };
-
-  // Initialize the slider
-  function initSlider() {
-    updateSlider();
-    setupEventListeners();
-    preloadImages();
-  }
-
-  // Update slider state
-  function updateSlider() {
-    themeCards.forEach((card, index) => {
-      const shouldBlur = index !== config.currentIndex;
-      card.classList.toggle('blur', shouldBlur);
-      
-      // Smooth transition effect
-      card.style.transition = `all ${config.transitionSpeed}ms ease`;
-    });
-
-    // Load and display high-quality preview
-    loadAndDisplayPreview();
-  }
-
-  // Load and display high-res preview image
-  async function loadAndDisplayPreview() {
-    try {
-      const currentCard = themeCards[config.currentIndex];
-      const hiResUrl = currentCard.querySelector('img').dataset.hiRes;
-      
-      // Create and load image
-      const img = new Image();
-      img.src = hiResUrl;
-      
-      await img.decode(); // Wait for image to load
-      
-      // Draw on canvas with crisp quality
-      ctx.imageSmoothingEnabled = false;
-      const scale = Math.min(
-        cardCanvas.width / img.width,
-        cardCanvas.height / img.height
-      );
-      const width = img.width * scale;
-      const height = img.height * scale;
-      const x = (cardCanvas.width - width) / 2;
-      const y = (cardCanvas.height - height) / 2;
-      
-      ctx.clearRect(0, 0, cardCanvas.width, cardCanvas.height);
-      ctx.drawImage(img, x, y, width, height);
-      
-    } catch (error) {
-      console.error('Error loading preview image:', error);
+function updateThemeSlider() {
+  themeCards.forEach((card, index) => {
+    if (index === currentThemeIndex) {
+      card.classList.remove('blur');
+    } else {
+      card.classList.add('blur');
     }
-  }
+  });
+}
 
-  // Preload images for better performance
-  function preloadImages() {
-    themeCards.forEach(card => {
-      const img = new Image();
-      img.src = card.querySelector('img').dataset.hiRes;
-    });
+prevThemeBtn.addEventListener('click', () => {
+  if (currentThemeIndex > 0) {
+    currentThemeIndex--;
+    updateThemeSlider();
   }
+});
 
-  // Navigation functions
-  function goToPrev() {
-    if (config.currentIndex > 0) {
-      config.currentIndex--;
-      updateSlider();
-    }
+nextThemeBtn.addEventListener('click', () => {
+  if (currentThemeIndex < themeCards.length - 1) {
+    currentThemeIndex++;
+    updateThemeSlider();
   }
+});
 
-  function goToNext() {
-    if (config.currentIndex < themeCards.length - 1) {
-      config.currentIndex++;
-      updateSlider();
-    }
-  }
+// Select Theme on Image Click
+themeCards.forEach((card, index) => {
+  card.addEventListener('click', () => {
+    currentThemeIndex = index;
+    updateThemeSlider();
+  });
+});
 
-  // Setup event listeners
-  function setupEventListeners() {
-    // Button navigation
-    prevBtn.addEventListener('click', goToPrev);
-    nextBtn.addEventListener('click', goToNext);
-    
-    // Card selection
-    themeCards.forEach((card, index) => {
-      card.addEventListener('click', () => {
-        config.currentIndex = index;
-        updateSlider();
-      });
-    });
-    
-    // Touch swipe support
-    let touchStartX = 0;
-    const container = document.querySelector('.theme-container');
-    
-    container.addEventListener('touchstart', (e) => {
-      touchStartX = e.touches[0].clientX;
-    }, { passive: true });
-    
-    container.addEventListener('touchend', (e) => {
-      const touchEndX = e.changedTouches[0].clientX;
-      const diff = touchStartX - touchEndX;
-      
-      if (diff > config.swipeThreshold) {
-        goToNext(); // Swipe left
-      } else if (diff < -config.swipeThreshold) {
-        goToPrev(); // Swipe right
-      }
-    }, { passive: true });
-    
-    // Select button functionality
-    selectBtn.addEventListener('click', () => {
-      // Add your selection logic here
-      console.log('Selected theme:', config.currentIndex + 1);
-      // You can add download/share functionality here
-    });
-  }
-
-  // Start the slider
-  initSlider();
+// Select Theme on Button Click
+selectThemeBtn.addEventListener('click', () => {
+  const selectedTheme = themeCards[currentThemeIndex].querySelector('img').src;
+  drawCard(selectedTheme);
 });
 
 // //**************** 800px ke niche ka theme slected ka javascript code ************* */
 
-// document.addEventListener('DOMContentLoaded', function () {
-//   // Check if mobile view (below 800px)
-//   if (window.innerWidth > 800) return;
-//   // DOM Elements
-//   const container = document.querySelector('.theme-container');
-//   const cards = document.querySelectorAll('.theme-card');
-//   const prevBtn = document.querySelector('.prev-theme');
-//   const nextBtn = document.querySelector('.next-theme');
-//   let currentIndex = 1; // Default selected card (second one)
-
-//   // Hide all cards except current
-//   function updateSlider() {
-//     cards.forEach((card, index) => {
-//       if (index === currentIndex) {
-//         card.style.display = 'block';
-//         card.classList.remove('blur');
-//         // Smooth scroll to card
-//         card.scrollIntoView({
-//           behavior: 'smooth',
-//           block: 'nearest',
-//           inline: 'center'
-//         });
-//       } else {
-//         card.style.display = 'none';
-//       }
-//     });
-//   }
-
-//   // Next card function
-//   function showNext() {
-//     currentIndex = (currentIndex + 1) % cards.length;
-//     updateSlider();
-//   }
-
-//   // Previous card function
-//   function showPrev() {
-//     currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-//     updateSlider();
-//   }
-
-//   // Initialize slider
-//   updateSlider();
-
-//   // Button event listeners
-//   nextBtn.addEventListener('click', showNext);
-//   prevBtn.addEventListener('click', showPrev);
-
-//   // Touch swipe support (optional)
-//   let touchStartX = 0;
-//   container.addEventListener('touchstart', (e) => {
-//     touchStartX = e.touches[0].clientX;
-//   }, { passive: true });
-
-//   container.addEventListener('touchend', (e) => {
-//     const touchEndX = e.changedTouches[0].clientX;
-//     if (touchEndX < touchStartX - 50) showNext(); // Swipe left
-//     if (touchEndX > touchStartX + 50) showPrev(); // Swipe right
-//   }, { passive: true });
-// })
-
-
-//
 document.addEventListener('DOMContentLoaded', function() {
   // Mobile view check (800px se niche)
   if (window.innerWidth > 800) return;
