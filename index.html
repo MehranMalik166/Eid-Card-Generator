@@ -82,10 +82,10 @@
   </div>
 
     <!-- Theme Slider --> 
-    <div class="theme-slider">
+    <!-- <div class="theme-slider">
       <h1 class="theme-h1">"Select a Stunning Theme "</h1>
       <div class="theme-container">
-        <div class="theme-card blur"><img src="eid-image.png/card1.png" alt="card 1" class="eid-image"></div>
+        <div class="theme-card blur"><img src="eid-image.png/card1.png" data-hi-res="images/card1-hi.jpg" alt="card 1"></div>
         <div class="theme-card"><img src="eid-image.png/card2.png" alt="card 2" class="eid-image"></div>
         <div class="theme-card blur"><img src="eid-image.png/card3.png" alt="card 3" class="eid-image"></div>
         <div class="theme-card blur"><img src="eid-image.png/card4.png" alt="card 4" class="eid-image"></div>
@@ -95,7 +95,45 @@
       <button class="prev-theme">&#10094;</button>
       <button class="next-theme">&#10095;</button>
       <button class="select-theme">Select</button>
-    </div> 
+    </div>  -->
+
+    <div class="theme-slider">
+      <h1 class="theme-h1">"Select a Stunning Theme"</h1>
+      <div class="theme-container">
+        <!-- Fixed image paths and added data attributes for high-res versions -->
+        <div class="theme-card blur" data-theme-id="1">
+          <img src="eid-images/card1.png" alt="Eid Card Theme 1" class="eid-image" 
+               data-hi-res="eid-images/hi-res/card1.jpg">
+        </div>
+        <div class="theme-card" data-theme-id="2">
+          <img src="eid-images/card2.png" alt="Eid Card Theme 2" class="eid-image"
+               data-hi-res="eid-images/hi-res/card2.jpg">
+        </div>
+        <div class="theme-card blur" data-theme-id="3">
+          <img src="eid-images/card3.png" alt="Eid Card Theme 3" class="eid-image"
+               data-hi-res="eid-images/hi-res/card3.jpg">
+        </div>
+        <div class="theme-card blur" data-theme-id="4">
+          <img src="eid-images/card4.png" alt="Eid Card Theme 4" class="eid-image"
+               data-hi-res="eid-images/hi-res/card4.jpg">
+        </div>
+        <div class="theme-card blur" data-theme-id="5">
+          <img src="eid-images/card5.png" alt="Eid Card Theme 5" class="eid-image"
+               data-hi-res="eid-images/hi-res/card5.jpg">
+        </div>
+        <div class="theme-card blur" data-theme-id="6">
+          <img src="eid-images/card6.png" alt="Eid Card Theme 6" class="eid-image"
+               data-hi-res="eid-images/hi-res/card6.jpg">
+        </div>
+      </div>
+      
+      <!-- Navigation Buttons -->
+      <div class="slider-controls">
+        <button class="prev-theme" aria-label="Previous theme">&#10094;</button>
+        <button class="next-theme" aria-label="Next theme">&#10095;</button>
+        <button class="select-theme">Select Theme</button>
+      </div>
+    </div>
 
 
     <!-- User Input Section -->
